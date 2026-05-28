@@ -59,3 +59,15 @@ export interface AdminPlanCreate {
 export interface ReorderPlansRequest {
   order: { id: number; sort_order: number }[]
 }
+
+export interface PlanCalculateRequest {
+  months: number
+  devices: number
+  unlimited: boolean
+}
+
+export interface PlanCalculateResponse {
+  price: number
+  duration_days: number
+  max_devices: number
+}

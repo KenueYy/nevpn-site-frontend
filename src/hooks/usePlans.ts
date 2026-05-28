@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createPlan, deletePlan, getAdminPlans, reorderPlans, updatePlan } from '@/api/admin'
-import { getPlans } from '@/api/plans'
+import { calculatePlan, getPlans } from '@/api/plans'
 import { planToAdminCreate } from '@/utils/plan'
 import type { AdminPlanUpdate } from '@/types/plan'
 import type { AdminTariffFormValues } from '@/components/admin/AdminTariffForm'
@@ -86,4 +86,10 @@ export function useAdminPlanMutations() {
   })
 
   return { create, update, remove, reorder }
+}
+
+export function useCalculatePlan() {
+  return useMutation({
+    mutationFn: calculatePlan,
+  })
 }
