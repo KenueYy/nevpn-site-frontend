@@ -43,7 +43,9 @@ export function PlanEditorSection() {
     })
   }
 
-  const result = calculate.data
+  const lastResultRef = useRef(calculate.data)
+  if (calculate.data) lastResultRef.current = calculate.data
+  const result = calculate.data ?? lastResultRef.current
   const error = calculate.error
 
   return (
