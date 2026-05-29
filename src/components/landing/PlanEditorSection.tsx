@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { useAuth } from '@/hooks/useAuth'
@@ -16,10 +16,18 @@ export function PlanEditorSection() {
   const { openAuth } = useAuthModal()
   const calculate = useCalculatePlan()
   const payment = useCreateCustomPayment()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const handleCalculate = () => {
-    calculate.mutate({ months, devices, unlimited })
-  }
+  // Auto-calculate on params change with debounce
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      calculate.mutate({ months, devices, unlimited })
+    }, 300)
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
+  }, [months, devices, unlimited])
 
   const handlePurchase = () => {
     if (!isAuthenticated) {
@@ -62,17 +70,19 @@ export function PlanEditorSection() {
                 <label className="text-sm font-medium text-navy-800">Срок подписки</label>
                 <span className="text-sm font-semibold text-navy-950">{months} мес.</span>
               </div>
-              <input
-                type="range"
-                min={1}
-                max={24}
-                value={months}
-                onChange={(e) => setMonths(Number(e.target.value))}
-                className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900"
-              />
-              <div className="mt-1 flex justify-between text-xs text-navy-400">
-                <span>1 мес</span>
-                <span>24 мес</span>
+              <div className="px-3 sm:px-0">
+                <input
+                  type="range"
+                  min={1}
+                  max={12}
+                  value={months}
+                  onChange={(e) => setMonths(Number(e.target.value))}
+                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900"
+                />
+                <div className="mt-1 flex justify-between text-xs text-navy-400">
+                  <span>1 мес</span>
+                  <span>12 мес</span>
+                </div>
               </div>
             </div>
 
@@ -84,20 +94,22 @@ export function PlanEditorSection() {
                   {unlimited ? 'Безлимит' : devices}
                 </span>
               </div>
-              <input
-                type="range"
-                min={1}
-                max={7}
-                value={devices}
-                onChange={(e) => setDevices(Number(e.target.value))}
-                disabled={unlimited}
-                className={`h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900 ${
-                  unlimited ? 'cursor-not-allowed opacity-40' : ''
-                }`}
-              />
-              <div className="mt-1 flex justify-between text-xs text-navy-400">
-                <span>1</span>
-                <span>7</span>
+              <div className="px-3 sm:px-0">
+                <input
+                  type="range"
+                  min={1}
+                  max={7}
+                  value={devices}
+                  onChange={(e) => setDevices(Number(e.target.value))}
+                  disabled={unlimited}
+                  className={`h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900 ${
+                    unlimited ? 'cursor-not-allowed opacity-40' : ''
+                  }`}
+                />
+                <div className="mt-1 flex justify-between text-xs text-navy-400">
+                  <span>1</span>
+                  <span>7</span>
+                </div>
               </div>
             </div>
 
@@ -112,23 +124,15 @@ export function PlanEditorSection() {
               Безлимит устройств
             </label>
 
-            <Button
-              size="lg"
-              className="w-full"
-              isLoading={isLoading}
-              onClick={handleCalculate}
-            >
-              Рассчитать стоимость
-            </Button>
           </div>
 
           {/* Result panel */}
           <Card className="flex flex-col justify-center">
             {!result && !isLoading && !error ? (
               <div className="py-8 text-center">
-                <p className="text-navy-500">Выберите параметры и нажмите «Рассчитать»</p>
+                <p className="text-navy-500">Выберите параметры</p>
                 <p className="mt-2 text-xs text-navy-400">
-                  Срок: 1–24 месяца, устройств: 1–7 или безлимит
+                  Срок: 1–12 месяцев, устройств: 1–7 или безлимит
                 </p>
               </div>
             ) : null}
@@ -148,7 +152,7 @@ export function PlanEditorSection() {
                   className="mt-4"
                   variant="secondary"
                   size="sm"
-                  onClick={handleCalculate}
+                  onClick={() => calculate.mutate({ months, devices, unlimited })}
                 >
                   Повторить
                 </Button>
@@ -174,7 +178,7 @@ export function PlanEditorSection() {
                   </li>
                   <li className="flex gap-2 text-sm text-navy-700">
                     <span className="text-navy-400">—</span>
-                    ~{Math.round(result.price / months)} ₽ / мес
+                    ~{Math.round(result.price / (result.duration_days / 30))} ₽ / мес
                   </li>
                 </ul>
                 <Button

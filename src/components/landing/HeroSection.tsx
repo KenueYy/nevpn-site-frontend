@@ -33,6 +33,17 @@ export function HeroSection() {
               Посмотреть тарифы
             </Button>
           </Link>
+          <Button
+            size="lg"
+            variant="secondary"
+            onClick={() =>
+              document
+                .getElementById('plan-editor')
+                ?.scrollIntoView({ behavior: 'smooth' })
+            }
+          >
+            Калькулятор
+          </Button>
         </div>
       </div>
     </section>
