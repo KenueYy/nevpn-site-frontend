@@ -44,7 +44,6 @@ export function PlanEditorSection() {
   }
 
   const result = calculate.data
-  const isLoading = calculate.isPending
   const error = calculate.error
 
   return (
@@ -128,18 +127,12 @@ export function PlanEditorSection() {
 
           {/* Result panel */}
           <Card className="flex flex-col justify-center">
-            {!result && !isLoading && !error ? (
+            {!result && !error ? (
               <div className="py-8 text-center">
                 <p className="text-navy-500">Выберите параметры</p>
                 <p className="mt-2 text-xs text-navy-400">
                   Срок: 1–12 месяцев, устройств: 1–7 или безлимит
                 </p>
-              </div>
-            ) : null}
-
-            {isLoading ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-navy-200 border-t-navy-800" />
               </div>
             ) : null}
 
