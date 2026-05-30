@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
 import { useAuthModal } from '@/contexts/AuthModalContext'
 import { useSupportModal } from '@/contexts/SupportModalContext'
+import { useSubscriptionQuery } from '@/hooks/useSubscription'
+import { useTrialMutation } from '@/hooks/useTrial'
 import { cn } from '@/utils/cn'
 
 const nav = [
@@ -20,6 +22,22 @@ export function Header() {
   const { openAuth } = useAuthModal()
   const { openSupport } = useSupportModal()
   const [menuOpen, setMenuOpen] = useState(false)
+  const subQuery = useSubscriptionQuery(isAuthenticated)
+  const trialMutation = useTrialMutation()
+
+  const hasSubscription = subQuery.data?.status === 'active'
+  const trialUsed =
+    trialMutation.error &&
+    'body' in trialMutation.error &&
+    (trialMutation.error.body as Record<string, unknown>)?.error === 'trial_already_used'
+
+  const handleTrial = () => {
+    if (!isAuthenticated) {
+      openAuth('/profile')
+      return
+    }
+    trialMutation.mutate()
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-navy-100/80 bg-white/90 backdrop-blur-md">
@@ -63,6 +81,16 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          {!isLoading && isAuthenticated && !hasSubscription && !trialUsed ? (
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={handleTrial}
+              isLoading={trialMutation.isPending}
+            >
+              {trialMutation.isSuccess ? '✅ Доступ активирован' : 'Попробовать бесплатно'}
+            </Button>
+          ) : null}
           {!isLoading && isAuthenticated && user ? (
             <Link to="/profile">
               <Button variant="secondary" size="sm">
@@ -119,6 +147,16 @@ export function Header() {
             <button type="button" className="py-2 text-left text-navy-700" onClick={() => { openSupport(); setMenuOpen(false) }}>
               Поддержка
             </button>
+            {!isLoading && isAuthenticated && !hasSubscription && !trialUsed ? (
+              <Button
+                className="w-full mb-2"
+                variant="primary"
+                onClick={() => { handleTrial(); setMenuOpen(false) }}
+                isLoading={trialMutation.isPending}
+              >
+                {trialMutation.isSuccess ? '✅ Доступ активирован' : 'Попробовать бесплатно'}
+              </Button>
+            ) : null}
             {!isLoading && isAuthenticated ? (
               <Link to="/profile" onClick={() => setMenuOpen(false)}>
                 <Button className="w-full">Кабинет</Button>
