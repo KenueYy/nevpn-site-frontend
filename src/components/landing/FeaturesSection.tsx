@@ -1,6 +1,6 @@
 const features = [
   {
-    title: '🛡 Рабочий VPN',
+    title: '🛡 Ускоритель интернета',
     text: 'NeVPN стабильно работает в России, Китае и Дубае. Протоколы Xray и VLESS.',
   },
   {
@@ -42,7 +42,7 @@ export function FeaturesSection() {
     <section id="features" className="scroll-mt-20 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="text-2xl font-semibold tracking-tight text-navy-950 sm:text-3xl">
-          Почему NeVPN — лучший рабочий VPN в 2026
+          Почему NeVPN — лучший прокси-сервис в 2026
         </h2>
         <p className="mt-3 max-w-lg text-navy-600">
           От 99 ₽/мес, 3 дня бесплатно, Xray и VLESS, безлимит устройств. Работает в России, Китае и Дубае без блокировок.

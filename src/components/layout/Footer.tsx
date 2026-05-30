@@ -8,7 +8,7 @@ export function Footer() {
         <div className="sm:col-span-2 lg:col-span-1">
           <p className="text-lg font-semibold text-white">neVPN</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-navy-300">
-            NeVPN — рабочий VPN без блокировок в России, Китае, Дубае. От 99 ₽/мес, 3 дня бесплатно, безлимит устройств.
+            NeVPN — ускоритель интернета без блокировок в России, Китае, Дубае. От 99 ₽/мес, 3 дня бесплатно, безлимит устройств.
           </p>
         </div>
         <div>
