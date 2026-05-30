@@ -2,6 +2,7 @@ import { HeroSection } from '@/components/landing/HeroSection'
 import { FeaturesSection } from '@/components/landing/FeaturesSection'
 import { PlanEditorSection } from '@/components/landing/PlanEditorSection'
 import { TariffsSection } from '@/components/tariffs/TariffsSection'
+import { ReviewsSection } from '@/components/landing/ReviewsSection'
 import { SupportCtaSection } from '@/components/landing/SupportCtaSection'
 
 export function HomePage() {
@@ -11,6 +12,7 @@ export function HomePage() {
       <FeaturesSection />
       <PlanEditorSection />
       <TariffsSection />
+      <ReviewsSection />
       <SupportCtaSection />
     </>
   )

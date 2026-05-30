@@ -9,7 +9,10 @@ import { cn } from '@/utils/cn'
 const nav = [
   { to: '/#features', label: 'Преимущества', isHash: true },
   { to: '/#tariffs', label: 'Тарифы', isHash: true },
+  { to: '/#reviews', label: 'Отзывы', isHash: true },
   { to: '/tariffs', label: 'Все тарифы', isHash: false },
+  { to: '/setup', label: 'Как подключить', isHash: false },
+  { to: '/faq', label: 'FAQ', isHash: false },
 ]
 
 export function Header() {

@@ -5,6 +5,8 @@ import { AuthModalProvider } from '@/contexts/AuthModalContext'
 import { SupportModalProvider } from '@/contexts/SupportModalContext'
 import { HomePage } from '@/pages/HomePage'
 import { TariffsPage } from '@/pages/TariffsPage'
+import { FaqPage } from '@/pages/FaqPage'
+import { SetupPage } from '@/pages/SetupPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 import { AdminPage } from '@/pages/AdminPage'
 import { ProtectedRoute } from '@/routes/ProtectedRoute'
@@ -30,6 +32,8 @@ export default function App() {
               <Route element={<MainLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path="tariffs" element={<TariffsPage />} />
+                <Route path="faq" element={<FaqPage />} />
+                <Route path="setup" element={<SetupPage />} />
                 <Route
                   path="profile"
                   element={

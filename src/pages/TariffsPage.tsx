@@ -42,9 +42,9 @@ export function TariffsPage() {
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-navy-950">Тарифы</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-navy-950">💰 Тарифы NeVPN — от 99 ₽/мес</h1>
           <p className="mt-3 max-w-lg text-navy-600">
-            Сравните планы и выберите подходящий для быстрого и стабильного доступа к сети.
+            Купить NeVPN: от 99 рублей в месяц, 3 дня бесплатно, безлимит устройств. Выберите тариф и оплатите за 2 минуты.
           </p>
         </div>
         <Button variant="secondary" onClick={openSupport}>
