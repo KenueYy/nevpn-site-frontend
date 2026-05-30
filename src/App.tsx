@@ -12,6 +12,7 @@ import { AdminPage } from '@/pages/AdminPage'
 import { ProtectedRoute } from '@/routes/ProtectedRoute'
 import { AdminRoute } from '@/routes/AdminRoute'
 import { YandexMetrika } from '@/components/analytics/YandexMetrika'
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ export default function App() {
         <SupportModalProvider>
           <BrowserRouter>
             <YandexMetrika />
+            <GoogleAnalytics />
             <Routes>
               <Route element={<MainLayout />}>
                 <Route index element={<HomePage />} />
