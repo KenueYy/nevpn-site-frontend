@@ -40,8 +40,8 @@ export async function apiRequest<T>(
   if (!res.ok) {
     const body = await parseErrorBody(res)
     const message =
-      body?.error ??
       body?.message ??
+      body?.error ??
       DEFAULT_ERROR_MESSAGES[res.status] ??
       `Ошибка ${res.status}`
     throw new ApiError(message, res.status, body)

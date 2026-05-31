@@ -18,3 +18,9 @@ export interface SupportResponse {
     items: SupportFaqItem[]
   }
 }
+
+export interface SupportTicketRequest {
+  description: string
+  contact_method: string
+  contact: string
+}
