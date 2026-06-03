@@ -21,7 +21,7 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 animate-fade-in">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-3xl font-semibold tracking-tight text-navy-950">Личный кабинет</h1>
         <div className="flex flex-wrap gap-2">

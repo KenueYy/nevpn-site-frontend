@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { useAuth } from '@/hooks/useAuth'
 import { useCalculatePlan } from '@/hooks/usePlans'
 import { useCreateCustomPayment } from '@/hooks/usePayment'
@@ -17,6 +18,7 @@ export function PlanEditorSection() {
   const calculate = useCalculatePlan()
   const payment = useCreateCustomPayment()
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const ref = useScrollReveal()
 
   // Auto-calculate on params change with debounce
   useEffect(() => {
@@ -50,8 +52,8 @@ export function PlanEditorSection() {
 
   return (
     <section id="plan-editor" className="scroll-mt-20 bg-navy-50/40 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="reveal flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-navy-950 sm:text-3xl">
               Подберите свой план
@@ -64,7 +66,7 @@ export function PlanEditorSection() {
 
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
           {/* Settings panel */}
-          <div className="space-y-8">
+          <div className="reveal space-y-8" style={{ transitionDelay: '0.1s' }}>
             {/* Months slider */}
             <div>
               <div className="mb-2 flex items-center justify-between">
@@ -78,7 +80,7 @@ export function PlanEditorSection() {
                   max={12}
                   value={months}
                   onChange={(e) => setMonths(Number(e.target.value))}
-                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900"
+                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900 hover:bg-navy-300 transition-colors"
                 />
                 <div className="mt-1 flex justify-between text-xs text-navy-400">
                   <span>1 мес</span>
@@ -103,7 +105,7 @@ export function PlanEditorSection() {
                   value={devices}
                   onChange={(e) => setDevices(Number(e.target.value))}
                   disabled={unlimited}
-                  className={`h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900 ${
+                  className={`h-2 w-full cursor-pointer appearance-none rounded-lg bg-navy-200 accent-navy-900 hover:bg-navy-300 transition-colors ${
                     unlimited ? 'cursor-not-allowed opacity-40' : ''
                   }`}
                 />
@@ -115,7 +117,7 @@ export function PlanEditorSection() {
             </div>
 
             {/* Unlimited checkbox */}
-            <label className="flex items-center gap-2 text-sm text-navy-800">
+            <label className="flex items-center gap-2 text-sm text-navy-800 cursor-pointer hover:text-navy-950 transition-colors">
               <input
                 type="checkbox"
                 checked={unlimited}
@@ -124,11 +126,10 @@ export function PlanEditorSection() {
               />
               Безлимит устройств
             </label>
-
           </div>
 
           {/* Result panel */}
-          <Card className="flex flex-col justify-center">
+          <Card className="reveal hover-lift flex flex-col justify-center" style={{ transitionDelay: '0.15s' }}>
             {!result && !error ? (
               <div className="py-8 text-center">
                 <p className="text-navy-500">Выберите параметры</p>

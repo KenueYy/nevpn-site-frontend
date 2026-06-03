@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { Loader } from '@/components/ui/Loader'
 import { Skeleton } from '@/components/ui/Skeleton'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { useAuth } from '@/hooks/useAuth'
 import { usePlansQuery } from '@/hooks/usePlans'
 import { useCreatePayment } from '@/hooks/usePayment'
@@ -22,6 +23,7 @@ export function TariffsSection({ limit = 3, showTitle = true, currentPlanId }: T
   const { isAuthenticated } = useAuth()
   const { openAuth } = useAuthModal()
   const payment = useCreatePayment()
+  const ref = useScrollReveal()
 
   const handleSelect = (planId: number) => {
     if (!isAuthenticated) {
@@ -38,9 +40,9 @@ export function TariffsSection({ limit = 3, showTitle = true, currentPlanId }: T
 
   return (
     <section id="tariffs" className="scroll-mt-20 bg-navy-50/40 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6">
         {showTitle ? (
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="reveal flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight text-navy-950 sm:text-3xl">
                 Тарифы
@@ -69,20 +71,21 @@ export function TariffsSection({ limit = 3, showTitle = true, currentPlanId }: T
         ) : null}
 
         {!isLoading && !isError && displayPlans?.length === 0 ? (
-          <p className="mt-12 text-center text-navy-500">Тарифы скоро появятся</p>
+          <p className="reveal mt-12 text-center text-navy-500">Тарифы скоро появятся</p>
         ) : null}
 
         {displayPlans && displayPlans.length > 0 ? (
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {displayPlans.map((plan) => (
-              <TariffCard
-                key={plan.id}
-                plan={plan}
-                status={getPlanUiStatus(plan, { currentPlanId })}
-                compact
-                onSelect={(p) => handleSelect(p.id)}
-                isSelecting={payment.isPending && payment.variables === plan.id}
-              />
+            {displayPlans.map((plan, i) => (
+              <div key={plan.id} className="reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+                <TariffCard
+                  plan={plan}
+                  status={getPlanUiStatus(plan, { currentPlanId })}
+                  compact
+                  onSelect={(p) => handleSelect(p.id)}
+                  isSelecting={payment.isPending && payment.variables === plan.id}
+                />
+              </div>
             ))}
           </div>
         ) : null}

@@ -5,9 +5,9 @@ const variants = {
   primary:
     'bg-navy-900 text-white hover:bg-navy-800 active:bg-navy-950 disabled:bg-navy-300',
   secondary:
-    'bg-white text-navy-900 border border-navy-200 hover:border-navy-400 hover:bg-navy-50',
-  ghost: 'bg-transparent text-navy-800 hover:bg-navy-50',
-  danger: 'bg-red-600 text-white hover:bg-red-700',
+    'bg-white text-navy-900 border border-navy-200 hover:border-navy-400 hover:bg-navy-50 active:bg-navy-100',
+  ghost: 'bg-transparent text-navy-800 hover:bg-navy-50 active:bg-navy-100',
+  danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
 } as const
 
 const sizes = {
@@ -39,7 +39,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ref={ref}
       disabled={disabled || isLoading}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors duration-200 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 disabled:cursor-not-allowed',
+        'press-scale',
         variants[variant],
         sizes[size],
         className,

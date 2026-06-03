@@ -40,9 +40,9 @@ export function TariffsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="animate-fade-in flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-navy-950">💰 Тарифы NeVPN — от 99 ₽/мес</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-navy-950 sm:text-4xl">💰 Тарифы NeVPN — от 99 ₽/мес</h1>
           <p className="mt-3 max-w-lg text-navy-600">
             Купить NeVPN: от 99 рублей в месяц, 3 дня бесплатно, безлимит устройств. Выберите тариф и оплатите за 2 минуты.
           </p>
@@ -72,7 +72,7 @@ export function TariffsPage() {
       ) : null}
 
       {sorted.length > 0 ? (
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 lg:grid-cols-3 stagger-children">
           {sorted.map((plan) => (
             <TariffCard
               key={plan.id}

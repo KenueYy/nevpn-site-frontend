@@ -21,12 +21,13 @@ export function TariffCard({
   compact,
 }: TariffCardProps) {
   const disabled = status === 'inactive' || status === 'unavailable' || status === 'current'
+  const isRecommended = status === 'recommended'
 
   return (
     <Card
       className={cn(
-        'flex h-full flex-col',
-        status === 'recommended' && 'border-navy-800 ring-1 ring-navy-800/20',
+        'flex h-full flex-col hover-lift',
+        isRecommended && 'border-navy-800 ring-1 ring-navy-800/20 animate-glow-pulse',
         status === 'current' && 'border-navy-300 bg-navy-50/40',
       )}
     >
@@ -36,7 +37,9 @@ export function TariffCard({
       </div>
       <p className="mt-2 text-3xl font-semibold tracking-tight text-navy-950">
         {formatPrice(plan.price)}
-        <span className="ml-1 text-sm font-normal text-navy-500">/ {formatDuration(plan.durationDays)}</span>
+        <span className="ml-1 text-sm font-normal text-navy-500">
+          / {formatDuration(plan.durationDays)}
+        </span>
       </p>
       {!compact ? (
         <p className="mt-3 text-sm leading-relaxed text-navy-600">{plan.description}</p>
@@ -51,8 +54,8 @@ export function TariffCard({
       </ul>
       {onSelect ? (
         <Button
-          className="mt-6 w-full"
-          variant={status === 'recommended' ? 'primary' : 'secondary'}
+          className={cn('mt-6 w-full', isRecommended && 'animate-glow-pulse')}
+          variant={isRecommended ? 'primary' : 'secondary'}
           disabled={disabled}
           isLoading={isSelecting}
           onClick={() => onSelect(plan)}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
@@ -22,6 +22,7 @@ export function Header() {
   const { openAuth } = useAuthModal()
   const { openSupport } = useSupportModal()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const subQuery = useSubscriptionQuery(isAuthenticated)
   const trialMutation = useTrialMutation()
 
@@ -39,10 +40,23 @@ export function Header() {
     trialMutation.mutate()
   }
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <header className="sticky top-0 z-40 border-b border-navy-100/80 bg-white/90 backdrop-blur-md">
+    <header
+      className={cn(
+        'sticky top-0 z-40 border-b bg-white/90 backdrop-blur-md transition-all duration-300',
+        scrolled
+          ? 'border-navy-100 shadow-sm'
+          : 'border-transparent',
+      )}
+    >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="text-lg font-semibold tracking-tight text-navy-950">
+        <Link to="/" className="text-lg font-semibold tracking-tight text-navy-950 hover:text-navy-800 transition-colors">
           neVPN
         </Link>
 
@@ -106,7 +120,7 @@ export function Header() {
 
         <button
           type="button"
-          className="md:hidden rounded-lg p-2 text-navy-800"
+          className="md:hidden rounded-lg p-2 text-navy-800 hover:bg-navy-50 transition-colors"
           aria-label="Меню"
           onClick={() => setMenuOpen((v) => !v)}
         >
@@ -121,14 +135,14 @@ export function Header() {
       </div>
 
       {menuOpen ? (
-        <div className="border-t border-navy-100 bg-white px-4 py-4 md:hidden animate-fade-in">
+        <div className="border-t border-navy-100 bg-white px-4 py-4 md:hidden animate-slide-up">
           <nav className="flex flex-col gap-3">
             {nav.map((item) =>
               item.isHash ? (
                 <a
                   key={item.to}
                   href={item.to}
-                  className="py-2 text-navy-700"
+                  className="py-2 text-navy-700 hover:text-navy-950 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
@@ -137,14 +151,14 @@ export function Header() {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="py-2 text-navy-700"
+                  className="py-2 text-navy-700 hover:text-navy-950 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
               ),
             )}
-            <button type="button" className="py-2 text-left text-navy-700" onClick={() => { openSupport(); setMenuOpen(false) }}>
+            <button type="button" className="py-2 text-left text-navy-700 hover:text-navy-950 transition-colors" onClick={() => { openSupport(); setMenuOpen(false) }}>
               Поддержка
             </button>
             {!isLoading && isAuthenticated && !hasSubscription && !trialUsed ? (

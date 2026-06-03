@@ -1,3 +1,5 @@
+import { useScrollReveal } from '@/hooks/useScrollReveal'
+
 const faqItems = [
   {
     q: 'Работает ли NeVPN в России?',
@@ -63,45 +65,50 @@ const faqSchema = {
 }
 
 export function FaqPage() {
+  const ref = useScrollReveal()
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
-      <h1 className="text-3xl font-semibold tracking-tight text-navy-950 sm:text-4xl">
-        ❓ NeVPN — ответы на частые вопросы
-      </h1>
-      <p className="mt-3 text-lg text-navy-600">
-        Всё о прокси-сервисе без блокировок: настройка, тарифы, надёжность, отзывы.
-      </p>
+      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="animate-fade-in">
+          <h1 className="text-3xl font-semibold tracking-tight text-navy-950 sm:text-4xl">
+            ❓ NeVPN — ответы на частые вопросы
+          </h1>
+          <p className="mt-3 text-lg text-navy-600">
+            Всё о прокси-сервисе без блокировок: настройка, тарифы, надёжность, отзывы.
+          </p>
+        </div>
 
-      <div className="mt-12 space-y-8">
-        {faqItems.map((item) => (
-          <article
-            key={item.q}
-            className="rounded-2xl border border-navy-100 p-6 transition-colors hover:border-navy-200 hover:bg-navy-50/30"
-          >
-            <h2 className="font-medium text-navy-950">{item.q}</h2>
-            <p className="mt-2 leading-relaxed text-navy-600">{item.a}</p>
-          </article>
-        ))}
+        <div ref={ref} className="mt-12 space-y-8">
+          {faqItems.map((item, i) => (
+            <article
+              key={item.q}
+              className="reveal hover-lift rounded-2xl border border-navy-100 bg-white p-6"
+              style={{ transitionDelay: `${i * 0.04}s` }}
+            >
+              <h2 className="font-medium text-navy-950">{item.q}</h2>
+              <p className="mt-2 leading-relaxed text-navy-600">{item.a}</p>
+            </article>
+          ))}
+        </div>
+
+        {/* Обман или нет — отдельный блок */}
+        <section className="reveal mt-16 rounded-2xl border border-green-200 bg-green-50 p-8 animate-scale-in">
+          <h2 className="text-xl font-semibold text-green-900">
+            ✅ NeVPN — не обман
+          </h2>
+          <ul className="mt-4 space-y-2 text-green-800">
+            <li>• Работаем с 2024 года</li>
+            <li>• Тысячи пользователей в РФ, Китае, Дубае</li>
+            <li>• Гарантия возврата денег</li>
+            <li>• Прозрачные тарифы — от 99 ₽/мес</li>
+          </ul>
+        </section>
       </div>
-
-      {/* Обман или нет — отдельный блок */}
-      <section className="mt-16 rounded-2xl border border-green-200 bg-green-50 p-8">
-        <h2 className="text-xl font-semibold text-green-900">
-          ✅ NeVPN — не обман
-        </h2>
-        <ul className="mt-4 space-y-2 text-green-800">
-          <li>• Работаем с 2024 года</li>
-          <li>• Тысячи пользователей в РФ, Китае, Дубае</li>
-          <li>• Гарантия возврата денег</li>
-          <li>• Прозрачные тарифы — от 99 ₽/мес</li>
-        </ul>
-      </section>
-    </div>
     </>
   )
 }

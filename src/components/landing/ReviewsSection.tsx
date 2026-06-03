@@ -1,3 +1,5 @@
+import { useScrollReveal } from '@/hooks/useScrollReveal'
+
 const reviews = [
   {
     name: 'Алексей',
@@ -38,10 +40,12 @@ const reviews = [
 ]
 
 export function ReviewsSection() {
+  const ref = useScrollReveal()
+
   return (
     <section id="reviews" className="scroll-mt-20 bg-navy-50/40 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="text-center">
+      <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="reveal text-center">
           <h2 className="text-2xl font-semibold tracking-tight text-navy-950 sm:text-3xl">
             ⭐ NeVPN отзывы — что говорят пользователи
           </h2>
@@ -51,14 +55,19 @@ export function ReviewsSection() {
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((r) => (
+          {reviews.map((r, i) => (
             <article
               key={r.name}
-              className="rounded-2xl border border-navy-100 bg-white p-6 transition-colors hover:border-navy-200 hover:bg-navy-50/30"
+              className="reveal hover-lift rounded-2xl border border-navy-100 bg-white p-6"
+              style={{ transitionDelay: `${i * 0.06}s` }}
             >
               <div className="flex items-center gap-1">
-                {Array.from({ length: r.rating }).map((_, i) => (
-                  <span key={i} className="text-yellow-500">
+                {Array.from({ length: r.rating }).map((_, j) => (
+                  <span
+                    key={j}
+                    className="animate-bounce-in text-yellow-500"
+                    style={{ animationDelay: `${0.3 + i * 0.1 + j * 0.08}s` }}
+                  >
                     ★
                   </span>
                 ))}
