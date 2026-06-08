@@ -23,12 +23,14 @@ interface Props {
 }
 
 interface FieldErrors {
+  subject?: string
   description?: string
   contactMethod?: string
   contact?: string
 }
 
 export function SupportTicketModal({ isOpen, onClose }: Props) {
+  const [subject, setSubject] = useState('')
   const [description, setDescription] = useState('')
   const [contactMethod, setContactMethod] = useState('')
   const [contact, setContact] = useState('')
@@ -38,6 +40,7 @@ export function SupportTicketModal({ isOpen, onClose }: Props) {
   const [submitError, setSubmitError] = useState('')
 
   const resetForm = () => {
+    setSubject('')
     setDescription('')
     setContactMethod('')
     setContact('')
@@ -54,6 +57,13 @@ export function SupportTicketModal({ isOpen, onClose }: Props) {
 
   const validate = (): boolean => {
     const next: FieldErrors = {}
+
+    const subj = subject.trim()
+    if (!subj) {
+      next.subject = 'Укажите тему обращения'
+    } else if (subj.length < 3) {
+      next.subject = 'Минимум 3 символа'
+    }
 
     const desc = description.trim()
     if (!desc) {
@@ -86,6 +96,7 @@ export function SupportTicketModal({ isOpen, onClose }: Props) {
     setSubmitError('')
 
     const payload: SupportTicketRequest = {
+      subject: subject.trim(),
       description: description.trim(),
       contact_method: contactMethod,
       contact: contact.trim(),
@@ -133,6 +144,17 @@ export function SupportTicketModal({ isOpen, onClose }: Props) {
       ) : (
         <form onSubmit={handleSubmit} noValidate>
           <div className="space-y-5">
+            <Input
+              label="Тема обращения"
+              placeholder="Например: Не могу подключиться к VPN"
+              value={subject}
+              onChange={(e) => {
+                setSubject(e.target.value)
+                if (errors.subject) setErrors((prev) => ({ ...prev, subject: undefined }))
+              }}
+              error={errors.subject}
+            />
+
             <Textarea
               label="Опишите проблему"
               placeholder="Опишите, что случилось. Чем подробнее — тем быстрее поможем."

@@ -9,6 +9,7 @@ import { FaqPage } from '@/pages/FaqPage'
 import { SetupPage } from '@/pages/SetupPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 import { AdminPage } from '@/pages/AdminPage'
+import { TicketsPage } from '@/pages/TicketsPage'
 import { ProtectedRoute } from '@/routes/ProtectedRoute'
 import { AdminRoute } from '@/routes/AdminRoute'
 import { YandexMetrika } from '@/components/analytics/YandexMetrika'
@@ -41,6 +42,14 @@ export default function App() {
                   element={
                     <ProtectedRoute>
                       <ProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="tickets"
+                  element={
+                    <ProtectedRoute>
+                      <TicketsPage />
                     </ProtectedRoute>
                   }
                 />

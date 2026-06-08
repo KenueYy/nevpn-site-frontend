@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AdminTariffForm, type AdminTariffFormValues } from '@/components/admin/AdminTariffForm'
 import { AdminTariffTable } from '@/components/admin/AdminTariffTable'
+import { AdminTicketsSection } from '@/components/admin/AdminTicketsSection'
 import { Button } from '@/components/ui/Button'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { Loader } from '@/components/ui/Loader'
@@ -118,6 +119,13 @@ export function AdminPage() {
             onDelete={handleDelete}
           />
         ) : null}
+      </div>
+
+      <div className="mt-12 border-t border-navy-100 pt-10">
+        <h2 className="text-2xl font-semibold text-navy-950">Тикеты поддержки</h2>
+        <div className="mt-6">
+          <AdminTicketsSection />
+        </div>
       </div>
     </div>
   )

@@ -32,6 +32,11 @@ export function ProfilePage() {
               </Button>
             </Link>
           ) : null}
+          <Link to="/tickets">
+            <Button variant="secondary" size="sm">
+              Мои тикеты
+            </Button>
+          </Link>
           <Button variant="secondary" size="sm" onClick={openSupport}>
             Поддержка
           </Button>

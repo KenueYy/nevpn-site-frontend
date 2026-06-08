@@ -20,7 +20,22 @@ export interface SupportResponse {
 }
 
 export interface SupportTicketRequest {
+  subject: string
   description: string
   contact_method: string
   contact: string
+}
+
+export type TicketStatus = 'open' | 'pending' | 'in_progress' | 'resolved' | 'closed'
+
+export interface Ticket {
+  id: string
+  user_id?: string
+  subject: string
+  description: string
+  contact_method: string
+  contact: string
+  status: TicketStatus
+  created_at: string
+  updated_at: string
 }
